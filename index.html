@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+	<head>
+		<meta charset="UTF-8">
+		<title>Угадайте число</title>
+
+		<style>
+			div, input, button{
+				font-family: Sans-serif;
+				font-weight: bold;
+				font-size: 16px;
+			}
+			button{
+				width: 100px;
+				background: #78b719;
+				border: 0px;
+				border-radius: 5px;
+				padding: 3px;
+				color: white;
+			}
+			input{
+				width: 50px;
+				border: 0px;
+				border-radius: 5px;
+				padding: 3px;
+				color: #4286f4;
+			}
+		    .form{	   
+		     	background: #5c0d5e; /* For browsers that do not support gradients */
+				background: -webkit-linear-gradient(left, #5c0d5e , #383333); /* For Safari 5.1 to 6.0 */
+				background: -o-linear-gradient(right, #5c0d5e, #383333); /* For Opera 11.1 to 12.0 */
+				background: -moz-linear-gradient(right, #5c0d5e, #383333); /* For Firefox 3.6 to 15 */
+				background: linear-gradient(to right, #5c0d5e , #383333); /* Standard syntax */
+
+		        text-align: center;
+		        display: inline-block;
+		        border: 5px solid grey;
+		        padding: 10px 20px;
+	        }
+	        .form-container{
+	        	text-align: center;
+	        	padding: 100px;
+	        }
+	        div#title, div#resultContainer{
+	        	color: orange;
+	        	padding: 5px;
+	        }
+	        div#attemptsContainer{
+	        	color: red;
+	        }
+		</style>
+	    
+	    <script type="text/javascript">
+	    	"use strict";
+
+	        var numAttemptsTotal = 10, numAttempsDone = 0, numMadeGuessComputer, objInputNumber, objResultContainer, objAttemptsContainer;
+
+	        function getRandom(numStart, numEnd){
+	        	return Math.floor((Math.random() * (numEnd - numStart + 1))) + numStart;
+	        }
+
+	        function initGuessForm(){
+				objInputNumber = document.getElementById("inputNumber");
+				objResultContainer = document.getElementById("resultContainer");
+				objAttemptsContainer = document.getElementById("attemptsContainer");
+
+	        	objAttemptsContainer.innerHTML = "Осталось попыток: " + (numAttemptsTotal - numAttempsDone) + " из " + numAttemptsTotal;
+	        }
+
+	        function isGuessed(){
+	        	if(objInputNumber == null || objInputNumber.value == "" || isNaN(objInputNumber.value)){
+	        		objResultContainer.innerHTML = "Внимание: введите число!";
+	        		return;
+	        	}
+
+	        	numAttempsDone++;
+
+				if(numAttemptsTotal - numAttempsDone < 0 || (numAttemptsTotal - numAttempsDone == 0 && objInputNumber.value != numMadeGuessComputer)){
+					objResultContainer.innerHTML = "ВЫ ПРОИГРАЛИ... :(";
+					objAttemptsContainer.innerHTML = "Загаданное число: " + numMadeGuessComputer + ", осталось попыток: 0 из " + numAttemptsTotal;
+
+					return;
+				}else{
+					if(objInputNumber.value == numMadeGuessComputer){
+						objResultContainer.innerHTML = "ВЫ УГАДАЛИ! :)";
+						objAttemptsContainer.innerHTML = "Использовано попыток: " + numAttempsDone + " из " + numAttemptsTotal;
+
+						return;
+					}else{
+						if(objInputNumber.value < numMadeGuessComputer){
+							objResultContainer.innerHTML = "Ваше число меньше!";
+						}else{
+							objResultContainer.innerHTML = "Ваше число больше!";
+						}
+					}
+				}
+
+				objAttemptsContainer.innerHTML = "Осталось попыток: " + (numAttemptsTotal - numAttempsDone) + " из " + numAttemptsTotal;
+	        }
+
+	        numMadeGuessComputer = getRandom(1, 10);
+			//debugger;
+
+	     </script>
+	</head>
+	<body onload="javasript:initGuessForm();">
+		<div class="form-container">
+			<div class="form">
+				<!-- Title -->
+			 	<div id="title">Угадайте число</div>
+				
+				<!-- Input Form Structure -->
+				<input type="text" id="inputNumber" />
+				<button type="button" onclick="isGuessed()">Угадать!</button>
+
+				<!-- Result: More/Less/Guessed -->
+				<div id="resultContainer"></div>
+
+				<!-- Attempts -->
+				<div id="attemptsContainer">Осталось попыток: 0 из 0</div>
+			</div>
+		</div>
+	</body>
+</html>
